@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Artista</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>¡Bienvenido, Artista!</h2>
+    <button id="logoutBtn">Cerrar sesión</button>
+    <script>
+        document.getElementById('logoutBtn').onclick = function() {
+            sessionStorage.clear();
+            window.location.href = 'index.html';
+        };
+    </script>
+</body>
+</html> 

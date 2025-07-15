@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exportar: musicalendaria - Adminer</title>
+<link rel="stylesheet" href="adminer.php?file=default.css&amp;version=5.1.0">
+<link rel='stylesheet' media='(prefers-color-scheme: dark)' href='adminer.php?file=dark.css&amp;version=5.1.0'>
+<meta name='color-scheme' content='light dark'>
+<script src='adminer.php?file=functions.js&amp;version=5.1.0' nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI="></script>
+<link rel='shortcut icon' type='image/x-icon' href='adminer.php?file=favicon.ico&amp;version=5.1.0'>
+<link rel='apple-touch-icon' href='adminer.php?file=favicon.ico&amp;version=5.1.0'>
+
+<body class='ltr nojs'>
+<script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">mixin(document.body, {onkeydown: bodyKeydown, onclick: bodyClick});
+document.body.classList.replace('nojs', 'js');
+const offlineMessage = 'Usted no esta en linea.';
+const thousandsSeparator = ' ';</script>
+<div id='help' class='jush-sql jsonly hidden'></div>
+<script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">mixin(qs('#help'), {onmouseover: () => { helpOpen = 1; }, onmouseout: helpMouseout});</script>
+<div id='content'>
+<p id="breadcrumb"><a href="adminer.php">MySQL</a> » <a href='adminer.php?username=root' accesskey='1' title='Alt+Shift+1'>Servidor</a> » <a href="adminer.php?username=root&amp;db=musicalendaria">musicalendaria</a> » Exportar
+<h2>Exportar: musicalendaria</h2>
+<div id='ajaxstatus' class='jsonly hidden'></div>
+
+<form action="" method="post">
+<table class="layout">
+<tr><th>Salida<td><label><input type='radio' name='output' value='text' checked>abrir</label><label><input type='radio' name='output' value='file'>guardar</label><label><input type='radio' name='output' value='gz'>gzip</label>
+<tr><th>Formato<td><label><input type='radio' name='format' value='sql' checked>SQL</label><label><input type='radio' name='format' value='csv'>CSV,</label><label><input type='radio' name='format' value='csv;'>CSV;</label><label><input type='radio' name='format' value='tsv'>TSV</label>
+<tr><th>Base de datos<td><select name='db_style'><option selected><option>USE<option>DROP+CREATE<option>CREATE</select><label><input type='checkbox' name='routines' value='1' checked>Procedimientos</label><label><input type='checkbox' name='events' value='1' checked>Eventos</label><tr><th>Tablas<td><select name='table_style'><option><option selected>DROP+CREATE<option>CREATE</select><label><input type='checkbox' name='auto_increment' value='1'>Incremento automático</label><label><input type='checkbox' name='triggers' value='1' checked>Disparadores</label><tr><th>Datos<td><select name='data_style'><option><option>TRUNCATE+INSERT<option selected>INSERT<option>INSERT+UPDATE</select></table>
+<p><input type="submit" value="Exportar">
+<input type='hidden' name='token' value='611529:63146'>
+
+<table>
+<script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">qsl('table').onclick = dumpClick;</script>
+<thead><tr><th style='text-align: left;'><label class='block'><input type='checkbox' id='check-tables' checked>Tablas</label><script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">qs('#check-tables').onclick = partial(formCheck, /^tables\[/);</script><th style='text-align: right;'><label class='block'>Datos<input type='checkbox' id='check-data' checked></label><script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">qs('#check-data').onclick = partial(formCheck, /^data\[/);</script></thead>
+<tr><td><label class='block'><input type='checkbox' name='tables[]' value='usuarios' checked>usuarios</label><td align='right'><label class='block'><span id='Rows-usuarios'></span><input type='checkbox' name='data[]' value='usuarios' checked></label>
+<script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">ajaxSetHtml('adminer.php?username=root&db=musicalendaria&script=db');</script>
+</table>
+</form>
+</div>
+
+<div id='menu'>
+<h1><a href='https://www.adminer.org/' target="_blank" rel="noreferrer noopener" id='h1'>Adminer</a> <span class='version'>5.1.0 <a href='https://www.adminer.org/#download' target="_blank" rel="noreferrer noopener" id='version'>5.3.0</a></span></h1>
+<form action='' method='post'>
+<div id='lang'>Idioma: <select name='lang'><option value="en">English<option value="ar">العربية<option value="bg">Български<option value="bn">বাংলা<option value="bs">Bosanski<option value="ca">Català<option value="cs">Čeština<option value="da">Dansk<option value="de">Deutsch<option value="el">Ελληνικά<option value="es" selected>Español<option value="et">Eesti<option value="fa">فارسی<option value="fi">Suomi<option value="fr">Français<option value="gl">Galego<option value="he">עברית<option value="hu">Magyar<option value="id">Bahasa Indonesia<option value="it">Italiano<option value="ja">日本語<option value="ka">ქართული<option value="ko">한국어<option value="lt">Lietuvių<option value="lv">Latviešu<option value="ms">Bahasa Melayu<option value="nl">Nederlands<option value="no">Norsk<option value="pl">Polski<option value="pt">Português<option value="pt-br">Português (Brazil)<option value="ro">Limba Română<option value="ru">Русский<option value="sk">Slovenčina<option value="sl">Slovenski<option value="sr">Српски<option value="sv">Svenska<option value="ta">த‌மிழ்<option value="th">ภาษาไทย<option value="tr">Türkçe<option value="uk">Українська<option value="uz">Oʻzbekcha<option value="vi">Tiếng Việt<option value="zh">简体中文<option value="zh-tw">繁體中文</select><script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">qsl('select').onchange = function () { this.form.submit(); };</script> <input type='submit' value='Usar' class='hidden'>
+<input type='hidden' name='token' value='487380:970167'>
+</div>
+</form>
+<script src='adminer.php?file=jush.js&amp;version=5.1.0' nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI="></script>
+<script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">
+var jushLinks = { sql: [ 'adminer.php?username=root&db=musicalendaria&table=$&', /\b(usuarios)\b/g ] };
+jushLinks.bac = jushLinks.sql;
+jushLinks.bra = jushLinks.sql;
+jushLinks.sqlite_quo = jushLinks.sql;
+jushLinks.mssql_bra = jushLinks.sql;
+</script>
+<script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">syntaxHighlighting('8.2');</script>
+<form action=''>
+<p id='dbs'>
+<input type='hidden' name='username' value='root'>
+<span title='Base de datos'>BD:</span> <select name='db'><option value=""><option>bookstore_db<option>information_schema<option>medical_clinic_db<option selected>musicalendaria<option>mysql<option>performance_schema<option>phpmyadmin<option>sys</select><script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">mixin(qsl('select'), {onmousedown: dbMouseDown, onchange: dbChange});</script>
+<input type='submit' value='Usar' class='hidden'>
+<input type='hidden' name='dump' value=''>
+</p></form>
+<p class='links'>
+<a href='adminer.php?username=root&amp;db=musicalendaria&amp;sql='>Comando SQL</a>
+<a href='adminer.php?username=root&amp;db=musicalendaria&amp;import='>Importar</a>
+<a href='adminer.php?username=root&amp;db=musicalendaria&amp;dump=' id='dump' class='active '>Exportar</a>
+<a href="adminer.php?username=root&amp;db=musicalendaria&amp;create=">Crear tabla</a>
+<ul id='tables'><script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">mixin(qs('#tables'), {onmouseover: menuOver, onmouseout: menuOut});</script>
+<li><a href="adminer.php?username=root&amp;db=musicalendaria&amp;select=usuarios" class='select' title='Visualizar contenido'>registros</a> <a href="adminer.php?username=root&amp;db=musicalendaria&amp;table=usuarios" class='structure' title='Mostrar estructura'>usuarios</a>
+</ul>
+</div>
+
+<form action="" method="post">
+<p class="logout">
+<span>root
+</span>
+<input type="submit" name="logout" value="Cerrar sesión" id="logout">
+<input type='hidden' name='token' value='611529:63146'>
+</p>
+</form>
+<script nonce="OTEwMzI1NjAwY2I2ZmUzZGI0MmIwZDhiYjRkYWIyNjI=">setupSubmitHighlight(document);</script>
