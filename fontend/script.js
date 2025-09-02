@@ -1,49 +1,69 @@
+// Importar el servicio de API
+// Nota: En un entorno real, esto se haría con módulos ES6
+
 // Lógica de registro
 document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    try {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const role = document.getElementById('role')?.value || 'artista';
 
-    const res = await fetch('http://localhost:5000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password })
-    });
-
-    const data = await res.json();
-    document.getElementById('message').textContent = data.message;
+        const result = await apiService.register({ name, email, password, role });
+        
+        // Mostrar mensaje de éxito de forma segura
+        apiService.showMessage('message', result.message, 'success');
+        
+        // Limpiar formulario
+        e.target.reset();
+        
+        // Redirigir después de un breve delay
+        setTimeout(() => {
+            window.location.href = 'index.html';
+        }, 2000);
+        
+    } catch (error) {
+        // Mostrar mensaje de error de forma segura
+        apiService.showMessage('message', error.message, 'error');
+    }
 });
 
 // Lógica de login
 document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    try {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
 
-    await loginUser(email, password);
+        const result = await apiService.login({ email, password });
+        
+        // Guardar datos del usuario de forma segura
+        sessionStorage.setItem('token', result.token);
+        sessionStorage.setItem('role', result.user.role);
+        sessionStorage.setItem('user', JSON.stringify(result.user));
+        
+        // Mostrar mensaje de éxito
+        apiService.showMessage('message', result.message, 'success');
+        
+        // Redirigir según el rol
+        setTimeout(() => {
+            apiService.redirectByRole(result.user.role);
+        }, 1000);
+        
+    } catch (error) {
+        // Mostrar mensaje de error de forma segura
+        apiService.showMessage('message', error.message, 'error');
+    }
 });
 
-async function loginUser(email, password) {
-    const response = await fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-    });
-    const data = await response.json();
-    if (response.ok) {
-        // Guardar token y rol en sessionStorage
-        sessionStorage.setItem('token', data.token);
-        sessionStorage.setItem('role', data.role);
-        // Redirigir según el rol
-        if (data.role === 'admin') {
-            window.location.href = 'panel_admin.html';
-        } else {
-            window.location.href = 'panel_artista.html';
-        }
-    } else {
-        alert(data.message || 'Error al iniciar sesión');
+// Función para verificar autenticación al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    // Si el usuario ya está autenticado, redirigir
+    if (apiService.isAuthenticated()) {
+        const role = sessionStorage.getItem('role');
+        apiService.redirectByRole(role);
     }
-}
+});

@@ -2,17 +2,379 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel Artista</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Artista - Música Legendaria</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .artist-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .artist-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .artist-header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .artist-header p {
+            margin: 10px 0 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .artist-main {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+        
+        .profile-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .profile-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .profile-info {
+            margin-bottom: 20px;
+        }
+        
+        .profile-info p {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .profile-info strong {
+            color: #667eea;
+        }
+        
+        .stats-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stats-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .artist-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+        
+        .message {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        @media (max-width: 768px) {
+            .artist-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .artist-header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2>¡Bienvenido, Artista!</h2>
-    <button id="logoutBtn">Cerrar sesión</button>
+    <div class="artist-container">
+        <header class="artist-header">
+            <h1>🎵 Panel de Artista</h1>
+            <p>Bienvenido a tu espacio personal en Música Legendaria</p>
+        </header>
+
+        <main class="artist-main">
+            <section class="profile-section">
+                <h2>👤 Mi Perfil</h2>
+                <div id="profileInfo" class="profile-info">
+                    <!-- La información del perfil se cargará dinámicamente -->
+                </div>
+                
+                <div class="artist-controls">
+                    <button id="editProfileBtn" class="btn btn-primary">✏️ Editar Perfil</button>
+                    <button id="changePasswordBtn" class="btn btn-secondary">🔒 Cambiar Contraseña</button>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <h2>📊 Mis Estadísticas</h2>
+                <div id="artistStats" class="stats-grid">
+                    <!-- Las estadísticas se cargarán dinámicamente -->
+                </div>
+                
+                <div class="artist-controls">
+                    <button id="refreshStatsBtn" class="btn btn-primary">🔄 Actualizar</button>
+                    <button id="logoutBtn" class="btn btn-danger">🚪 Cerrar Sesión</button>
+                </div>
+            </section>
+        </main>
+
+        <div id="message" class="message" style="display: none;"></div>
+    </div>
+
+    <script src="js/api.js"></script>
     <script>
-        document.getElementById('logoutBtn').onclick = function() {
-            sessionStorage.clear();
-            window.location.href = 'index.html';
-        };
+        // Script para el panel de artista
+        class ArtistPanel {
+            constructor() {
+                this.apiService = apiService;
+                this.init();
+            }
+
+            async init() {
+                // Verificar autenticación
+                if (!this.apiService.isAuthenticated()) {
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                const role = sessionStorage.getItem('role');
+                if (role !== 'artista') {
+                    alert('Acceso denegado. Solo artistas pueden acceder a este panel.');
+                    window.location.href = 'panel_admin.html';
+                    return;
+                }
+
+                // Cargar datos del panel
+                await this.loadProfile();
+                await this.loadStats();
+                this.setupEventListeners();
+            }
+
+            async loadProfile() {
+                try {
+                    const profile = await this.apiService.getProfile();
+                    this.displayProfile(profile);
+                } catch (error) {
+                    console.error('Error cargando perfil:', error);
+                    this.showMessage('Error cargando perfil', 'error');
+                }
+            }
+
+            async loadStats() {
+                try {
+                    // Simular estadísticas del artista
+                    const stats = {
+                        totalLogins: Math.floor(Math.random() * 50) + 10,
+                        lastLogin: new Date().toLocaleDateString(),
+                        profileViews: Math.floor(Math.random() * 100) + 20,
+                        accountAge: Math.floor(Math.random() * 365) + 1
+                    };
+                    this.displayStats(stats);
+                } catch (error) {
+                    console.error('Error cargando estadísticas:', error);
+                }
+            }
+
+            displayProfile(profile) {
+                const container = document.getElementById('profileInfo');
+                if (!container) return;
+
+                container.innerHTML = `
+                    <p><strong>Nombre:</strong> ${this.sanitizeText(profile.name)}</p>
+                    <p><strong>Email:</strong> ${this.sanitizeText(profile.email)}</p>
+                    <p><strong>Rol:</strong> ${this.sanitizeText(profile.role)}</p>
+                    <p><strong>Miembro desde:</strong> ${new Date(profile.created_at).toLocaleDateString()}</p>
+                    <p><strong>Último acceso:</strong> ${profile.last_login ? new Date(profile.last_login).toLocaleString() : 'Nunca'}</p>
+                `;
+            }
+
+            displayStats(stats) {
+                const container = document.getElementById('artistStats');
+                if (!container) return;
+
+                container.innerHTML = `
+                    <div class="stat-card">
+                        <h3>Total de Logins</h3>
+                        <p class="stat-number">${stats.totalLogins}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Último Login</h3>
+                        <p class="stat-number">${stats.lastLogin}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Vistas del Perfil</h3>
+                        <p class="stat-number">${stats.profileViews}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Días como Miembro</h3>
+                        <p class="stat-number">${stats.accountAge}</p>
+                    </div>
+                `;
+            }
+
+            sanitizeText(text) {
+                if (!text) return '';
+                return text.toString()
+                    .replace(/[<>]/g, '')
+                    .replace(/javascript:/gi, '')
+                    .replace(/on\w+=/gi, '');
+            }
+
+            showMessage(message, type = 'info') {
+                const messageDiv = document.getElementById('message');
+                if (messageDiv) {
+                    messageDiv.textContent = message;
+                    messageDiv.className = `message ${type}`;
+                    messageDiv.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        messageDiv.style.display = 'none';
+                    }, 5000);
+                }
+            }
+
+            setupEventListeners() {
+                // Botón de cerrar sesión
+                const logoutBtn = document.getElementById('logoutBtn');
+                if (logoutBtn) {
+                    logoutBtn.addEventListener('click', () => {
+                        this.apiService.logout();
+                    });
+                }
+
+                // Botón de actualizar estadísticas
+                const refreshBtn = document.getElementById('refreshStatsBtn');
+                if (refreshBtn) {
+                    refreshBtn.addEventListener('click', () => {
+                        this.loadStats();
+                        this.showMessage('Estadísticas actualizadas', 'success');
+                    });
+                }
+
+                // Botón de editar perfil
+                const editBtn = document.getElementById('editProfileBtn');
+                if (editBtn) {
+                    editBtn.addEventListener('click', () => {
+                        this.showMessage('Función de edición en desarrollo', 'info');
+                    });
+                }
+
+                // Botón de cambiar contraseña
+                const changePassBtn = document.getElementById('changePasswordBtn');
+                if (changePassBtn) {
+                    changePassBtn.addEventListener('click', () => {
+                        this.showMessage('Función de cambio de contraseña en desarrollo', 'info');
+                    });
+                }
+            }
+        }
+
+        // Inicializar panel de artista
+        const artistPanel = new ArtistPanel();
     </script>
 </body>
 </html> 

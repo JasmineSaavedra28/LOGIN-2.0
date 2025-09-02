@@ -1,78 +1,113 @@
+// Cargar variables de entorno
+require('dotenv').config();
+
 // Importamos las bibliotecas necesarias
 const express = require('express');
-const mysql = require('mysql2/promise');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+
+// Importamos nuestras rutas y configuraciones
+const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
 
 // Inicializamos la aplicación de Express
 const app = express();
 
-// Middlewares para manejar JSON y permitir CORS (para conectar frontend y backend)
-app.use(express.json());
-app.use(cors());
+// Configuración de seguridad con Helmet
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            styleSrc: ["'self'", "'unsafe-inline'"],
+            scriptSrc: ["'self'"],
+            imgSrc: ["'self'", "data:", "https:"],
+        },
+    },
+}));
 
-// Configuración de la conexión a MySQL
-const dbConfig = {
-    host: 'localhost',
-    user: 'root',
-    password: '2869', // Contraseña proporcionada por el usuario
-    database: 'musicalendaria'
-};
+// Rate limiting para prevenir ataques de fuerza bruta
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 100, // máximo 100 requests por ventana
+    message: {
+        message: 'Demasiadas solicitudes desde esta IP, inténtalo de nuevo más tarde.'
+    }
+});
+app.use('/api/', limiter);
 
-// Ruta de registro (POST): aquí los usuarios se registran
-app.post('/register', async (req, res) => {
-    const { name, email, password, role } = req.body;
-    try {
-        const connection = await mysql.createConnection(dbConfig);
-        // Validamos si el usuario ya está registrado
-        const [rows] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
-        if (rows.length > 0) {
-            await connection.end();
-            return res.status(400).json({ message: 'El usuario ya está registrado' });
-        }
-        // Encriptamos la contraseña
-        const hashedPassword = await bcrypt.hash(password, 10);
-        // Insertamos el nuevo usuario
-        await connection.execute(
-            'INSERT INTO usuarios (name, email, password, role) VALUES (?, ?, ?, ?)',
-            [name, email, hashedPassword, role || 'artista']
-        );
-        await connection.end();
-        res.status(201).json({ message: 'Usuario registrado exitosamente' });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Error en el servidor' });
+// Rate limiting específico para autenticación
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutos
+    max: 5, // máximo 5 intentos de login por ventana
+    message: {
+        message: 'Demasiados intentos de login, inténtalo de nuevo más tarde.'
     }
 });
 
-// Ruta de login (POST): aquí los usuarios inician sesión
-app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const connection = await mysql.createConnection(dbConfig);
-        // Verificamos si el usuario existe
-        const [rows] = await connection.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
-        if (rows.length === 0) {
-            await connection.end();
-            return res.status(400).json({ message: 'Usuario no encontrado' });
-        }
-        const user = rows[0];
-        // Comparamos la contraseña encriptada
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            await connection.end();
-            return res.status(400).json({ message: 'Contraseña incorrecta' });
-        }
-        // Generamos un token JWT
-        const token = jwt.sign({ userId: user.id, role: user.role }, 'mi_secreto', { expiresIn: '1h' });
-        await connection.end();
-        res.status(200).json({ token, message: 'Inicio de sesión exitoso', role: user.role });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Error en el servidor' });
+// Middlewares para manejar JSON y permitir CORS
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Configuración de CORS más segura
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Middleware para logging de requests
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.path} - IP: ${req.ip}`);
+    next();
+});
+
+// Middleware para manejar errores de CORS
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
     }
 });
 
-// Inicializamos el servidor en el puerto 5000
-app.listen(5000, () => console.log('Servidor escuchando en el puerto 5000'));
+// Rutas de la API
+app.use('/api/auth', authLimiter, authRoutes);
+app.use('/api/admin', adminRoutes);
+
+// Ruta de salud de la API
+app.get('/api/health', (req, res) => {
+    res.status(200).json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        uptime: process.uptime()
+    });
+});
+
+// Middleware para manejar rutas no encontradas
+app.use('*', (req, res) => {
+    res.status(404).json({
+        message: 'Ruta no encontrada'
+    });
+});
+
+// Middleware para manejo global de errores
+app.use((error, req, res, next) => {
+    console.error('Error no manejado:', error);
+    res.status(500).json({
+        message: 'Error interno del servidor',
+        error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+});
+
+// Inicializamos el servidor en el puerto 3001
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor escuchando en el puerto ${PORT}`);
+    console.log(`📊 Ambiente: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🔗 API disponible en:  http://localhost:${PORT}/api`);
+});

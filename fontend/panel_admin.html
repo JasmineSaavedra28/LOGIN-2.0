@@ -2,17 +2,57 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel Administrador</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador - Auditoría</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-    <h2>¡Bienvenido, Administrador!</h2>
-    <button id="logoutBtn">Cerrar sesión</button>
-    <script>
-        document.getElementById('logoutBtn').onclick = function() {
-            sessionStorage.clear();
-            window.location.href = 'index.html';
-        };
-    </script>
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1>🔐 Panel de Administrador</h1>
+            <div class="admin-controls">
+                <button id="refreshLogs" class="btn btn-secondary">🔄 Refrescar</button>
+                <button id="exportLogs" class="btn btn-secondary">📊 Exportar CSV</button>
+                <button id="logoutBtn" class="btn btn-danger">🚪 Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <main class="admin-main">
+            <section class="stats-section">
+                <h2>📈 Estadísticas del Sistema</h2>
+                <div id="statistics" class="statistics-container">
+                    <!-- Las estadísticas se cargarán dinámicamente -->
+                </div>
+            </section>
+
+            <section class="logs-section">
+                <h2>📋 Logs de Auditoría</h2>
+                <div class="logs-controls">
+                    <div class="search-box">
+                        <input type="text" id="searchLogs" placeholder="Buscar en logs...">
+                        <button id="searchBtn" class="btn btn-primary">🔍 Buscar</button>
+                    </div>
+                    <div class="filter-controls">
+                        <select id="actionFilter">
+                            <option value="">Todas las acciones</option>
+                            <option value="USER_LOGIN">Login de Usuario</option>
+                            <option value="USER_REGISTER">Registro de Usuario</option>
+                            <option value="GET_PROFILE">Obtener Perfil</option>
+                        </select>
+                        <input type="date" id="dateFilter">
+                    </div>
+                </div>
+                <div id="auditLogs" class="logs-container">
+                    <!-- Los logs se cargarán dinámicamente -->
+                </div>
+            </section>
+        </main>
+
+        <div id="message" class="message" style="display: none;"></div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 </html> 
