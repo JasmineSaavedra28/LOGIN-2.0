@@ -74,7 +74,7 @@ LOGIN-2.0/
 │   │   └── audit_log.sql    # Script de auditoría
 │   ├── server.js            # Servidor principal
 │   └── package.json         # Dependencias
-├── fontend/
+├── frontend/
 │   ├── css/
 │   │   └── admin.css        # Estilos del panel admin
 │   ├── js/
