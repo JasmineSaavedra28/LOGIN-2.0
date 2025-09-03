@@ -49,6 +49,35 @@ const validateLogin = [
         .withMessage('La contraseña es requerida')
 ];
 
+// Validaciones para eventos
+const validateEvent = [
+    body('title')
+        .trim()
+        .isLength({ min: 3, max: 100 })
+        .withMessage('El título debe tener entre 3 y 100 caracteres')
+        .customSanitizer(sanitizeInput),
+    body('description')
+        .optional()
+        .trim()
+        .isLength({ max: 500 })
+        .withMessage('La descripción no puede superar los 500 caracteres')
+        .customSanitizer(sanitizeInput),
+    body('event_date')
+        .isISO8601()
+        .toDate()
+        .withMessage('La fecha del evento debe ser una fecha válida'),
+    body('venue')
+        .trim()
+        .isLength({ min: 3, max: 100 })
+        .withMessage('El lugar debe tener entre 3 y 100 caracteres')
+        .customSanitizer(sanitizeInput),
+    body('city')
+        .trim()
+        .isLength({ min: 3, max: 50 })
+        .withMessage('La ciudad debe tener entre 3 y 50 caracteres')
+        .customSanitizer(sanitizeInput)
+];
+
 // Middleware para manejar errores de validación
 const handleValidationErrors = (req, res, next) => {
     const errors = validationResult(req);
@@ -64,6 +93,7 @@ const handleValidationErrors = (req, res, next) => {
 module.exports = {
     validateRegister,
     validateLogin,
+    validateEvent, // <-- AÑADIDO
     handleValidationErrors,
     sanitizeInput
-}; 
+};  
