@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const AdminController = require('../controllers/adminController');
-const { authenticateToken, authorizeRole } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 const { auditMiddleware } = require('../middleware/logger');
 
 // Todas las rutas de administración requieren autenticación y rol de admin
-router.use(authenticateToken);
-router.use(authorizeRole(['admin']));
+router.use(protect);
+router.use(authorize('admin'));
 
 // Obtener logs de auditoría
 router.get('/audit-logs', 

@@ -10,6 +10,7 @@ const rateLimit = require('express-rate-limit');
 // Importamos nuestras rutas y configuraciones
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
+const eventRoutes = require('./routes/events');
 
 // Inicializamos la aplicación de Express
 const app = express();
@@ -63,21 +64,12 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware para manejar errores de CORS
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(200);
-    } else {
-        next();
-    }
-});
+
 
 // Rutas de la API
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/events', eventRoutes);
 
 // Ruta de salud de la API
 app.get('/api/health', (req, res) => {

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const AuthController = require('../controllers/authController');
 const { validateRegister, validateLogin, handleValidationErrors } = require('../middleware/validation');
-const { authenticateToken } = require('../middleware/auth');
+const { protect } = require('../middleware/auth');
 const { auditMiddleware } = require('../middleware/logger');
 
 // Ruta de registro
@@ -23,9 +23,9 @@ router.post('/login',
 
 // Ruta para obtener perfil del usuario (requiere autenticación)
 router.get('/profile', 
-    authenticateToken,
+    protect,
     auditMiddleware('GET_PROFILE'),
     AuthController.getProfile
 );
 
-module.exports = router; 
+module.exports = router;
