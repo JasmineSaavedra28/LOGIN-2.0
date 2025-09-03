@@ -118,6 +118,11 @@ class ApiService {
                 window.location.href = 'index.html';
         }
     }
+
+    // Método para obtener los eventos públicos
+    async getPublicEvents() {
+        return await this.makeRequest('/events');
+    }
 }
 
 // Exportar la instancia del servicio

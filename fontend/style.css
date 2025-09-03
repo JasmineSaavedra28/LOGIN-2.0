@@ -1,9 +1,16 @@
+/* Estilos generales */
 body {
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #f2f2f2;
+}
+
+/* Estilos para centrar formularios */
+.form-body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f2f2f2;
 }
 
 .form-container {
@@ -14,22 +21,23 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-form h2 {
+.form-container h2 {
     margin-bottom: 20px;
 }
 
-form label {
+.form-container label {
     margin-top: 10px;
 }
 
-form input {
+.form-container input {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
 }
 
-form button {
+.form-container button {
     margin-top: 15px;
+    width: 100%;
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -37,10 +45,77 @@ form button {
     cursor: pointer;
 }
 
-form button:hover {
+.form-container button:hover {
     background-color: #45a049;
 }
 
-form p {
+.form-container p {
     margin-top: 10px;
+}
+
+/* Estilos para la cartelera */
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.cartelera-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.message {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    display: none; /* Oculto por defecto */
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
 }
