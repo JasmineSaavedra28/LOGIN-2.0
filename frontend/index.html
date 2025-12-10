@@ -3,20 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cartelera de Eventos</title>
+    <title>Musicalendaria - Cartelera de Eventos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Próximos Eventos</h1>
-        <nav>
-            <a href="login.html">Iniciar Sesión</a>
-        </nav>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>🎵 Musicalendaria</h1>
+                </div>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link active">Cartelera</a>
+                    <a href="login.html" class="nav-link">Iniciar Sesión</a>
+                    <a href="register.html" class="nav-link">Registrarse</a>
+                    <a href="panel_artista.html" class="nav-link">Panel de Artista</a>
+                </nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
     </header>
 
-    <main id="cartelera-container" class="cartelera-grid">
-        <!-- Los eventos se cargarán aquí dinámicamente -->
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Cartelera de Eventos</h1>
+                <p class="hero-subtitle">Descubre los próximos eventos musicales en tu ciudad</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters">
+                <div class="filter-group">
+                    <h3 class="filter-title">Buscar</h3>
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Buscar eventos..." class="search-input">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3 class="filter-title">Género Musical</h3>
+                    <div class="filter-pills" id="genreFilters">
+                        <button class="filter-pill active" data-filter="all">Todos</button>
+                        <button class="filter-pill" data-filter="rock">Rock</button>
+                        <button class="filter-pill" data-filter="pop">Pop</button>
+                        <button class="filter-pill" data-filter="jazz">Jazz</button>
+                        <button class="filter-pill" data-filter="electronic">Electrónica</button>
+                        <button class="filter-pill" data-filter="folklore">Folklore</button>
+                        <button class="filter-pill" data-filter="tango">Tango</button>
+                        <button class="filter-pill" data-filter="reggaeton">Reggaeton</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3 class="filter-title">Modalidad</h3>
+                    <div class="filter-pills" id="modalityFilters">
+                        <button class="filter-pill active" data-filter="all">Todas</button>
+                        <button class="filter-pill" data-filter="gratuito">Gratuito</button>
+                        <button class="filter-pill" data-filter="gorra">Gorra</button>
+                        <button class="filter-pill" data-filter="arancelado">Arancelado</button>
+                        <button class="filter-pill" data-filter="beneficio">Beneficio</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <h3 class="filter-title">Fecha</h3>
+                    <div class="filter-pills" id="dateFilters">
+                        <button class="filter-pill active" data-filter="all">Todas</button>
+                        <button class="filter-pill" data-filter="today">Hoy</button>
+                        <button class="filter-pill" data-filter="weekend">Este fin de semana</button>
+                        <button class="filter-pill" data-filter="week">Esta semana</button>
+                        <button class="filter-pill" data-filter="month">Este mes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cartelera -->
+    <main class="main">
+        <div class="container">
+            <div class="results-info">
+                <span id="resultsCount">Cargando eventos...</span>
+                <button class="clear-filters-btn" id="clearFilters">Limpiar filtros</button>
+            </div>
+            
+            <div id="cartelera-container" class="events-grid">
+                <!-- Los eventos se cargarán aquí dinámicamente -->
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p>Cargando eventos...</p>
+            </div>
+            
+            <div class="no-events" id="noEvents" style="display: none;">
+                <div class="no-events-icon">🎵</div>
+                <h3>No se encontraron eventos</h3>
+                <p>No hay eventos que coincidan con los filtros seleccionados.</p>
+                <button class="btn-primary" onclick="clearAllFilters()">Ver todos los eventos</button>
+            </div>
+        </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Musicalendaria</h4>
+                    <p>La plataforma líder para descubrir eventos musicales en Argentina.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Artistas</h4>
+                    <ul>
+                        <li><a href="register.html">Registrarse</a></li>
+                        <li><a href="panel_artista.html">Panel de Artista</a></li>
+                        <li><a href="#">Guía para Artistas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p>Email: info@musicalendaria.com</p>
+                    <p>Teléfono: +54 11 1234-5678</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Síguenos</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Instagram</a>
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Musicalendaria. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="js/api.js"></script>
     <script src="script.js"></script>
