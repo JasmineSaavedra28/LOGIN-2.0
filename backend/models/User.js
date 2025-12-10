@@ -34,6 +34,15 @@ class User {
         try {
             const { name, email, password, role = 'artista' } = userData;
             
+            // VALIDACIÓN DE NOMBRES PROHIBIDOS - Requerimiento específico del proyecto
+            const forbiddenNames = ['Eminem', 'Dua Lipa', 'Catriel', 'Paco Amoroso'];
+            const normalizedName = name.trim().toLowerCase();
+            const forbiddenNormalized = forbiddenNames.map(n => n.toLowerCase());
+            
+            if (forbiddenNormalized.includes(normalizedName)) {
+                throw new Error('Este nombre de artista no está permitido');
+            }
+
             // Verificar si el usuario ya existe
             const existingUser = await this.findByEmail(email);
             if (existingUser) {

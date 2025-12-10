@@ -123,6 +123,81 @@ class ApiService {
     async getPublicEvents() {
         return await this.makeRequest('/events');
     }
+
+    // === MÉTODOS PARA GESTIÓN DE EVENTOS ===
+    
+    // Obtener mis eventos
+    async getMyEvents() {
+        return await this.makeRequest('/events/my-events');
+    }
+
+    // Crear un nuevo evento
+    async createEvent(eventData) {
+        const sanitizedData = this.sanitizeData(eventData);
+        return await this.makeRequest('/events', {
+            method: 'POST',
+            body: JSON.stringify(sanitizedData)
+        });
+    }
+
+    // Actualizar un evento
+    async updateEvent(eventId, eventData) {
+        const sanitizedData = this.sanitizeData(eventData);
+        return await this.makeRequest(`/events/${eventId}`, {
+            method: 'PUT',
+            body: JSON.stringify(sanitizedData)
+        });
+    }
+
+    // Eliminar un evento
+    async deleteEvent(eventId) {
+        return await this.makeRequest(`/events/${eventId}`, {
+            method: 'DELETE'
+        });
+    }
+
+    // Obtener un evento específico
+    async getEventById(eventId) {
+        return await this.makeRequest(`/events/${eventId}`);
+    }
+
+    // === MÉTODOS PARA GESTIÓN DE PERFILES ===
+
+    // Obtener mi perfil
+    async getMyProfile() {
+        return await this.makeRequest('/profile/me');
+    }
+
+    // Crear o actualizar mi perfil
+    async createOrUpdateProfile(profileData) {
+        const sanitizedData = this.sanitizeData(profileData);
+        return await this.makeRequest('/profile', {
+            method: 'POST',
+            body: JSON.stringify(sanitizedData)
+        });
+    }
+
+    // Actualizar mi perfil (PUT)
+    async updateMyProfile(profileData) {
+        const sanitizedData = this.sanitizeData(profileData);
+        return await this.makeRequest('/profile', {
+            method: 'PUT',
+            body: JSON.stringify(sanitizedData)
+        });
+    }
+
+    // Eliminar mi perfil
+    async deleteMyProfile() {
+        return await this.makeRequest('/profile', {
+            method: 'DELETE'
+        });
+    }
+
+    // Obtener todos los perfiles de artistas
+    async getAllProfiles(genre = null) {
+        const endpoint = genre ? `/profile?genre=${encodeURIComponent(genre)}` : '/profile';
+        return await this.makeRequest(endpoint);
+    }
 }
 
 // Exportar la instancia del servicio

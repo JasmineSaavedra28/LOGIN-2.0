@@ -1,4 +1,8 @@
-// Lógica de registro (para register.html)
+// ========================================
+// MANEJO DE AUTENTICACIÓN
+// ========================================
+
+// Lógica de registro
 document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
@@ -21,7 +25,7 @@ document.getElementById('registerForm')?.addEventListener('submit', async (e) =>
     }
 });
 
-// Lógica de login (para login.html)
+// Lógica de login
 document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
     try {
@@ -45,57 +49,368 @@ document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
     }
 });
 
-// --- Lógica para la Cartelera (para index.html) ---
+// Logout
+function logout() {
+    if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+        apiService.logout();
+    }
+}
 
-/**
- * Carga y muestra los eventos públicos en la cartelera.
- */
-async function loadPublicEvents() {
-    const container = document.getElementById('cartelera-container');
-    if (!container) return; // No hacer nada si no estamos en la página de la cartelera
+// ========================================
+// GESTIÓN DE EVENTOS - PANEL DE ARTISTA
+// ========================================
 
-    try {
-        const events = await apiService.getPublicEvents();
+class EventManager {
+    constructor() {
+        this.api = apiService;
+        this.init();
+    }
+
+    async init() {
+        await this.loadMyEvents();
+        this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+        // Formulario de creación de eventos
+        const eventForm = document.getElementById('eventForm');
+        if (eventForm) {
+            eventForm.addEventListener('submit', (e) => this.handleCreateEvent(e));
+        }
+
+        // Botón para mostrar formulario de nuevo evento
+        const showEventFormBtn = document.getElementById('showEventForm');
+        if (showEventFormBtn) {
+            showEventFormBtn.addEventListener('click', () => this.showEventForm());
+        }
+
+        // Botón para cancelar formulario
+        const cancelEventBtn = document.getElementById('cancelEvent');
+        if (cancelEventBtn) {
+            cancelEventBtn.addEventListener('click', () => this.hideEventForm());
+        }
+    }
+
+    async loadMyEvents() {
+        const container = document.getElementById('my-events-container');
+        if (!container) return;
+
+        try {
+            const response = await this.api.getMyEvents();
+            this.renderEvents(response);
+        } catch (error) {
+            console.error('Error cargando eventos:', error);
+            container.innerHTML = '<p class="error">Error al cargar tus eventos.</p>';
+        }
+    }
+
+    renderEvents(events) {
+        const container = document.getElementById('my-events-container');
+        if (!container) return;
+
+        container.innerHTML = '';
 
         if (events.length === 0) {
-            container.innerHTML = '<p>No hay eventos próximos en este momento.</p>';
+            container.innerHTML = '<p class="no-events">No tienes eventos creados. ¡Crea tu primer evento!</p>';
             return;
         }
 
-        // Limpiar el contenedor
+        events.forEach(event => {
+            const eventCard = this.createEventCard(event);
+            container.appendChild(eventCard);
+        });
+    }
+
+    createEventCard(event) {
+        const card = document.createElement('div');
+        card.className = 'event-card';
+        
+        const eventDate = new Date(event.event_date).toLocaleDateString('es-ES', {
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+            hour: '2-digit', minute: '2-digit'
+        });
+
+        const priceText = event.price ? ` - $${event.price}` : '';
+        const ticketText = event.ticket_url ? ' | Entradas disponibles' : '';
+
+        card.innerHTML = `
+            <div class="event-header">
+                <h3>${event.title}</h3>
+                <span class="event-status ${event.status}">${event.status}</span>
+            </div>
+            <div class="event-details">
+                <p><strong>📅 Fecha:</strong> ${eventDate}</p>
+                <p><strong>📍 Lugar:</strong> ${event.venue}</p>
+                <p><strong>🏙️ Ciudad:</strong> ${event.city}</p>
+                <p><strong>🎫 Entrada:</strong> ${event.entry_type}${priceText}${ticketText}</p>
+                ${event.description ? `<p><strong>📝 Descripción:</strong> ${event.description}</p>` : ''}
+            </div>
+            <div class="event-actions">
+                <button onclick="eventManager.editEvent(${event.id})" class="btn-edit">✏️ Editar</button>
+                <button onclick="eventManager.deleteEvent(${event.id})" class="btn-delete">🗑️ Eliminar</button>
+            </div>
+        `;
+
+        return card;
+    }
+
+    showEventForm(eventId = null) {
+        const form = document.getElementById('eventForm');
+        const title = document.getElementById('eventFormTitle');
+        
+        if (eventId) {
+            title.textContent = 'Editar Evento';
+            this.loadEventForEdit(eventId);
+        } else {
+            title.textContent = 'Crear Nuevo Evento';
+            form.reset();
+            form.dataset.eventId = '';
+        }
+        
+        form.style.display = 'block';
+        form.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    hideEventForm() {
+        const form = document.getElementById('eventForm');
+        form.style.display = 'none';
+        form.reset();
+        form.dataset.eventId = '';
+    }
+
+    async loadEventForEdit(eventId) {
+        try {
+            const response = await this.api.getEventById(eventId);
+            const event = response.event;
+            
+            // Llenar el formulario con los datos del evento
+            document.getElementById('eventTitle').value = event.title;
+            document.getElementById('eventDescription').value = event.description || '';
+            document.getElementById('eventDate').value = event.event_date.split('T')[0];
+            document.getElementById('eventTime').value = event.event_date.split('T')[1].substring(0, 5);
+            document.getElementById('eventVenue').value = event.venue;
+            document.getElementById('eventCity').value = event.city;
+            document.getElementById('eventEntryType').value = event.entry_type;
+            document.getElementById('eventPrice').value = event.price || '';
+            document.getElementById('eventTicketUrl').value = event.ticket_url || '';
+            document.getElementById('eventFlyerUrl').value = event.flyer_url || '';
+            document.getElementById('eventStatus').value = event.status;
+            
+            document.getElementById('eventForm').dataset.eventId = eventId;
+        } catch (error) {
+            console.error('Error cargando evento para editar:', error);
+            alert('Error al cargar el evento para editar.');
+        }
+    }
+
+    async handleCreateEvent(e) {
+        e.preventDefault();
+        
+        const form = e.target;
+        const eventId = form.dataset.eventId;
+        
+        const eventData = {
+            title: document.getElementById('eventTitle').value,
+            description: document.getElementById('eventDescription').value,
+            event_date: `${document.getElementById('eventDate').value}T${document.getElementById('eventTime').value}`,
+            venue: document.getElementById('eventVenue').value,
+            city: document.getElementById('eventCity').value,
+            entry_type: document.getElementById('eventEntryType').value,
+            price: document.getElementById('eventPrice').value || null,
+            ticket_url: document.getElementById('eventTicketUrl').value || null,
+            flyer_url: document.getElementById('eventFlyerUrl').value || null,
+            status: document.getElementById('eventStatus').value
+        };
+
+        try {
+            if (eventId) {
+                // Actualizar evento existente
+                await this.api.updateEvent(eventId, eventData);
+                alert('Evento actualizado exitosamente');
+            } else {
+                // Crear nuevo evento
+                await this.api.createEvent(eventData);
+                alert('Evento creado exitosamente');
+            }
+            
+            await this.loadMyEvents();
+            this.hideEventForm();
+        } catch (error) {
+            console.error('Error guardando evento:', error);
+            alert('Error al guardar el evento: ' + error.message);
+        }
+    }
+
+    async editEvent(eventId) {
+        this.showEventForm(eventId);
+    }
+
+    async deleteEvent(eventId) {
+        if (!confirm('¿Estás seguro de que quieres eliminar este evento?')) {
+            return;
+        }
+
+        try {
+            await this.api.deleteEvent(eventId);
+            await this.loadMyEvents();
+            alert('Evento eliminado exitosamente');
+        } catch (error) {
+            console.error('Error eliminando evento:', error);
+            alert('Error al eliminar el evento: ' + error.message);
+        }
+    }
+}
+
+// ========================================
+// GESTIÓN DE PERFILES - PANEL DE ARTISTA
+// ========================================
+
+class ProfileManager {
+    constructor() {
+        this.api = apiService;
+        this.init();
+    }
+
+    async init() {
+        await this.loadMyProfile();
+        this.setupProfileListeners();
+    }
+
+    setupProfileListeners() {
+        const profileForm = document.getElementById('profileForm');
+        if (profileForm) {
+            profileForm.addEventListener('submit', (e) => this.handleProfileUpdate(e));
+        }
+    }
+
+    async loadMyProfile() {
+        try {
+            const response = await this.api.getMyProfile();
+            if (response.hasProfile) {
+                this.populateProfileForm(response.profile);
+            }
+        } catch (error) {
+            console.error('Error cargando perfil:', error);
+            // El perfil no existe, está bien
+        }
+    }
+
+    populateProfileForm(profile) {
+        document.getElementById('photoUrl').value = profile.photo_url || '';
+        document.getElementById('phone').value = profile.phone || '';
+        document.getElementById('website').value = profile.website || '';
+        document.getElementById('portfolioUrl').value = profile.portfolio_url || '';
+        document.getElementById('spotifyUrl').value = profile.spotify_url || '';
+        document.getElementById('appleMusicUrl').value = profile.apple_music_url || '';
+        document.getElementById('tidalUrl').value = profile.tidal_url || '';
+        document.getElementById('youtubeMusicUrl').value = profile.youtube_music_url || '';
+        document.getElementById('youtubeChannelUrl').value = profile.youtube_channel_url || '';
+        document.getElementById('instagramUrl').value = profile.instagram_url || '';
+        document.getElementById('bio').value = profile.bio || '';
+        document.getElementById('genre').value = profile.genre || '';
+    }
+
+    async handleProfileUpdate(e) {
+        e.preventDefault();
+        
+        const profileData = {
+            photo_url: document.getElementById('photoUrl').value || null,
+            phone: document.getElementById('phone').value || null,
+            website: document.getElementById('website').value || null,
+            portfolio_url: document.getElementById('portfolioUrl').value || null,
+            spotify_url: document.getElementById('spotifyUrl').value || null,
+            apple_music_url: document.getElementById('appleMusicUrl').value || null,
+            tidal_url: document.getElementById('tidalUrl').value || null,
+            youtube_music_url: document.getElementById('youtubeMusicUrl').value || null,
+            youtube_channel_url: document.getElementById('youtubeChannelUrl').value || null,
+            instagram_url: document.getElementById('instagramUrl').value || null,
+            bio: document.getElementById('bio').value || null,
+            genre: document.getElementById('genre').value || null
+        };
+
+        try {
+            await this.api.createOrUpdateProfile(profileData);
+            alert('Perfil actualizado exitosamente');
+        } catch (error) {
+            console.error('Error actualizando perfil:', error);
+            alert('Error al actualizar el perfil: ' + error.message);
+        }
+    }
+}
+
+// ========================================
+// CARTELEERA PÚBLICA
+// ========================================
+
+async function loadPublicEvents() {
+    const container = document.getElementById('cartelera-container');
+    if (!container) return;
+
+    try {
+        const response = await apiService.getPublicEvents();
+        const events = response.events || [];
+
+        if (events.length === 0) {
+            container.innerHTML = '<p class="no-events">No hay eventos próximos en este momento.</p>';
+            return;
+        }
+
         container.innerHTML = '';
 
-        // Crear y añadir la tarjeta de cada evento
         events.forEach(event => {
-            const eventCard = document.createElement('div');
-            eventCard.className = 'card';
-
-            // Formatear la fecha para que sea más legible
-            const eventDate = new Date(event.event_date).toLocaleDateString('es-ES', {
-                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-            });
-
-            eventCard.innerHTML = `
-                <h3>${event.title}</h3>
-                <p><strong>Artista:</strong> ${event.artist_name}</p>
-                <p><strong>Fecha:</strong> ${eventDate}</p>
-                <p><strong>Lugar:</strong> ${event.venue}</p>
-                <p><strong>Ciudad:</strong> ${event.city}</p>
-                <p>${event.description}</p>
-            `;
+            const eventCard = createPublicEventCard(event);
             container.appendChild(eventCard);
         });
 
     } catch (error) {
-        container.innerHTML = '<p>Error al cargar los eventos. Por favor, intenta de nuevo más tarde.</p>';
+        container.innerHTML = '<p class="error">Error al cargar los eventos. Por favor, intenta de nuevo más tarde.</p>';
         console.error('Error al cargar eventos:', error);
     }
 }
 
-// Ejecutar la carga de eventos cuando el DOM esté listo
+function createPublicEventCard(event) {
+    const card = document.createElement('div');
+    card.className = 'event-card public-event';
+    
+    const eventDate = new Date(event.event_date).toLocaleDateString('es-ES', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+    });
+
+    card.innerHTML = `
+        <div class="event-header">
+            <h3>${event.title}</h3>
+            <span class="artist-name">por ${event.artist_name}</span>
+        </div>
+        <div class="event-details">
+            <p><strong>📅 ${eventDate}</strong></p>
+            <p><strong>📍 ${event.venue}</strong></p>
+            <p><strong>🏙️ ${event.city}</strong></p>
+            ${event.description ? `<p>${event.description}</p>` : ''}
+        </div>
+    `;
+
+    return card;
+}
+
+// ========================================
+// INICIALIZACIÓN
+// ========================================
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Solo cargar eventos si estamos en la página principal (index.html)
-    if (document.getElementById('cartelera-container')) {
+    // Verificar autenticación en páginas protegidas
+    const currentPage = window.location.pathname;
+    
+    if (currentPage.includes('panel_artista.html') && !apiService.isAuthenticated()) {
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Inicializar gestores según la página
+    if (currentPage.includes('panel_artista.html')) {
+        window.eventManager = new EventManager();
+        window.profileManager = new ProfileManager();
+    } else if (currentPage.includes('index.html') || currentPage === '/') {
         loadPublicEvents();
     }
 });

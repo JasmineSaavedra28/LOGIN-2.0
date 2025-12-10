@@ -17,4 +17,13 @@ router.get('/my-events', protect, authorize('artista'), eventController.getMyEve
 // Crear un nuevo evento
 router.post('/', protect, authorize('artista'), validation.validateEvent, eventController.createEvent);
 
+// Obtener un evento específico
+router.get('/:id', eventController.getEventById);
+
+// Actualizar un evento
+router.put('/:id', protect, authorize('artista'), validation.validateEvent, eventController.updateEvent);
+
+// Eliminar un evento
+router.delete('/:id', protect, authorize('artista'), eventController.deleteEvent);
+
 module.exports = router;

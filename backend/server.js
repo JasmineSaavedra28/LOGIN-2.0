@@ -11,6 +11,7 @@ const rateLimit = require('express-rate-limit');
 const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const eventRoutes = require('./routes/events');
+const profileRoutes = require('./routes/profiles');
 
 // Inicializamos la aplicación de Express
 const app = express();
@@ -70,6 +71,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/events', eventRoutes);
+app.use('/api/profile', profileRoutes);
 
 // Ruta de salud de la API
 app.get('/api/health', (req, res) => {

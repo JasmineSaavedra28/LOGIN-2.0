@@ -222,6 +222,151 @@
             </section>
         </main>
 
+        <!-- Sección de Gestión de Eventos -->
+        <section class="events-section" style="margin-top: 30px;">
+            <h2>🎭 Mis Eventos</h2>
+            
+            <div class="artist-controls" style="margin-bottom: 20px;">
+                <button id="showEventForm" class="btn btn-primary">➕ Crear Nuevo Evento</button>
+                <button id="viewPublicCartelera" class="btn btn-secondary" onclick="window.open('index.html', '_blank')">👁️ Ver Cartelera Pública</button>
+            </div>
+
+            <!-- Formulario de Eventos (inicialmente oculto) -->
+            <div id="eventForm" style="display: none; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                <h3 id="eventFormTitle">Crear Nuevo Evento</h3>
+                <form>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <label for="eventTitle">Título del Evento *</label>
+                            <input type="text" id="eventTitle" required style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="eventDate">Fecha *</label>
+                            <input type="date" id="eventDate" required style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="eventTime">Hora *</label>
+                            <input type="time" id="eventTime" required style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="eventVenue">Lugar *</label>
+                            <input type="text" id="eventVenue" required style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="eventCity">Ciudad *</label>
+                            <input type="text" id="eventCity" required style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="eventEntryType">Tipo de Entrada</label>
+                            <select id="eventEntryType" style="width: 100%; padding: 10px; margin: 5px 0;">
+                                <option value="gratuito">Gratuito</option>
+                                <option value="gorra">A la Gorra</option>
+                                <option value="beneficio">Beneficio</option>
+                                <option value="arancelado">Arancelado</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="eventPrice">Precio (opcional)</label>
+                            <input type="number" id="eventPrice" step="0.01" min="0" style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="eventStatus">Estado</label>
+                            <select id="eventStatus" style="width: 100%; padding: 10px; margin: 5px 0;">
+                                <option value="activo">Activo</option>
+                                <option value="cancelado">Cancelado</option>
+                                <option value="postponed">Pospuesto</option>
+                            </select>
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <label for="eventDescription">Descripción</label>
+                            <textarea id="eventDescription" rows="3" style="width: 100%; padding: 10px; margin: 5px 0;"></textarea>
+                        </div>
+                        <div>
+                            <label for="eventTicketUrl">URL de Entradas (opcional)</label>
+                            <input type="url" id="eventTicketUrl" style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="eventFlyerUrl">URL del Flyer (opcional)</label>
+                            <input type="url" id="eventFlyerUrl" style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                    </div>
+                    <div class="artist-controls" style="margin-top: 20px;">
+                        <button type="submit" class="btn btn-primary">💾 Guardar Evento</button>
+                        <button type="button" id="cancelEvent" class="btn btn-secondary">❌ Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Lista de Mis Eventos -->
+            <div id="my-events-container" style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <!-- Los eventos se cargarán aquí dinámicamente -->
+            </div>
+        </section>
+
+        <!-- Sección de Gestión de Perfil Detallado -->
+        <section class="profile-detail-section" style="margin-top: 30px;">
+            <h2>🎨 Mi Perfil de Artista</h2>
+            
+            <div id="profileForm" style="background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <h3>Información de tu Perfil Público</h3>
+                <form>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <label for="photoUrl">URL de tu Foto</label>
+                            <input type="url" id="photoUrl" placeholder="https://drive.google.com/..." style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="phone">Teléfono</label>
+                            <input type="text" id="phone" style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="website">Sitio Web</label>
+                            <input type="url" id="website" style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="portfolioUrl">Portfolio</label>
+                            <input type="url" id="portfolioUrl" style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="spotifyUrl">Spotify</label>
+                            <input type="url" id="spotifyUrl" placeholder="https://open.spotify.com/..." style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="appleMusicUrl">Apple Music</label>
+                            <input type="url" id="appleMusicUrl" placeholder="https://music.apple.com/..." style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="tidalUrl">Tidal</label>
+                            <input type="url" id="tidalUrl" placeholder="https://tidal.com/..." style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="youtubeMusicUrl">YouTube Music</label>
+                            <input type="url" id="youtubeMusicUrl" placeholder="https://music.youtube.com/..." style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="youtubeChannelUrl">Canal de YouTube</label>
+                            <input type="url" id="youtubeChannelUrl" placeholder="https://youtube.com/..." style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="instagramUrl">Instagram</label>
+                            <input type="url" id="instagramUrl" placeholder="https://instagram.com/..." style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div>
+                            <label for="genre">Género Musical</label>
+                            <input type="text" id="genre" placeholder="Rock, Pop, Jazz, etc." style="width: 100%; padding: 10px; margin: 5px 0;">
+                        </div>
+                        <div style="grid-column: 1 / -1;">
+                            <label for="bio">Biografía</label>
+                            <textarea id="bio" rows="4" placeholder="Cuéntanos sobre ti y tu música..." style="width: 100%; padding: 10px; margin: 5px 0;"></textarea>
+                        </div>
+                    </div>
+                    <div class="artist-controls" style="margin-top: 20px;">
+                        <button type="submit" class="btn btn-primary">💾 Guardar Perfil</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
         <div id="message" class="message" style="display: none;"></div>
     </div>
 

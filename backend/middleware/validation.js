@@ -18,6 +18,17 @@ const validateRegister = [
         .trim()
         .isLength({ min: 2, max: 50 })
         .withMessage('El nombre debe tener entre 2 y 50 caracteres')
+        .custom((value) => {
+            // VALIDACIÓN DE NOMBRES PROHIBIDOS
+            const forbiddenNames = ['Eminem', 'Dua Lipa', 'Catriel', 'Paco Amoroso'];
+            const normalizedName = value.trim().toLowerCase();
+            const forbiddenNormalized = forbiddenNames.map(n => n.toLowerCase());
+            
+            if (forbiddenNormalized.includes(normalizedName)) {
+                throw new Error('Este nombre de artista no está permitido');
+            }
+            return value;
+        })
         .customSanitizer(sanitizeInput),
     
     body('email')
@@ -75,6 +86,108 @@ const validateEvent = [
         .trim()
         .isLength({ min: 3, max: 50 })
         .withMessage('La ciudad debe tener entre 3 y 50 caracteres')
+        .customSanitizer(sanitizeInput),
+    body('entry_type')
+        .optional()
+        .isIn(['gorra', 'gratuito', 'beneficio', 'arancelado'])
+        .withMessage('Tipo de entrada inválido'),
+    body('price')
+        .optional()
+        .isFloat({ min: 0 })
+        .withMessage('El precio debe ser un número positivo'),
+    body('ticket_url')
+        .optional()
+        .isURL()
+        .withMessage('URL de entradas inválida'),
+    body('flyer_url')
+        .optional()
+        .isURL()
+        .withMessage('URL de flyer inválida'),
+    body('status')
+        .optional()
+        .isIn(['activo', 'cancelado', 'postponed'])
+        .withMessage('Estado de evento inválido')
+];
+
+// Validaciones para perfiles de artistas
+const validateProfile = [
+    body('photo_url')
+        .optional()
+        .isURL()
+        .withMessage('URL de foto inválida'),
+    body('phone')
+        .optional()
+        .trim()
+        .isLength({ max: 20 })
+        .withMessage('El teléfono no puede superar 20 caracteres')
+        .customSanitizer(sanitizeInput),
+    body('website')
+        .optional()
+        .isURL()
+        .withMessage('URL de sitio web inválida'),
+    body('portfolio_url')
+        .optional()
+        .isURL()
+        .withMessage('URL de portfolio inválida'),
+    body('spotify_url')
+        .optional()
+        .custom((value) => {
+            if (value && !value.includes('spotify.com')) {
+                throw new Error('URL de Spotify inválida');
+            }
+            return true;
+        }),
+    body('apple_music_url')
+        .optional()
+        .custom((value) => {
+            if (value && !value.includes('music.apple.com')) {
+                throw new Error('URL de Apple Music inválida');
+            }
+            return true;
+        }),
+    body('tidal_url')
+        .optional()
+        .custom((value) => {
+            if (value && !value.includes('tidal.com')) {
+                throw new Error('URL de Tidal inválida');
+            }
+            return true;
+        }),
+    body('youtube_music_url')
+        .optional()
+        .custom((value) => {
+            if (value && !value.includes('music.youtube.com')) {
+                throw new Error('URL de YouTube Music inválida');
+            }
+            return true;
+        }),
+    body('youtube_channel_url')
+        .optional()
+        .custom((value) => {
+            if (value && !value.includes('youtube.com') && !value.includes('youtu.be')) {
+                throw new Error('URL de canal de YouTube inválida');
+            }
+            return true;
+        }),
+    body('instagram_url')
+        .optional()
+        .custom((value) => {
+            if (value && !value.includes('instagram.com')) {
+                throw new Error('URL de Instagram inválida');
+            }
+            return true;
+        }),
+    body('bio')
+        .optional()
+        .trim()
+        .isLength({ max: 1000 })
+        .withMessage('La biografía no puede superar los 1000 caracteres')
+        .customSanitizer(sanitizeInput),
+    body('genre')
+        .optional()
+        .trim()
+        .isLength({ max: 100 })
+        .withMessage('El género no puede superar los 100 caracteres')
         .customSanitizer(sanitizeInput)
 ];
 
@@ -93,7 +206,8 @@ const handleValidationErrors = (req, res, next) => {
 module.exports = {
     validateRegister,
     validateLogin,
-    validateEvent, // <-- AÑADIDO
+    validateEvent,
+    validateProfile,
     handleValidationErrors,
     sanitizeInput
 };  
