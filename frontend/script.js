@@ -885,10 +885,198 @@ function viewArtistEvent(eventId) {
 }
 
 // ========================================
+// PANEL DE ADMINISTRADOR
+// ========================================
+
+class AdminPanel {
+    constructor() {
+        this.apiService = apiService;
+        this.init();
+    }
+
+    async init() {
+        // Verificar autenticación y rol de admin
+        if (!this.apiService.isAuthenticated()) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        const role = sessionStorage.getItem('role');
+        if (role !== 'admin') {
+            alert('Acceso denegado. Solo administradores pueden acceder a este panel.');
+            window.location.href = 'index.html';
+            return;
+        }
+
+        await this.loadStatistics();
+        await this.loadAuditLogs();
+        this.setupEventListeners();
+    }
+
+    async loadStatistics() {
+        try {
+            // Simular estadísticas del sistema
+            const stats = {
+                totalUsers: Math.floor(Math.random() * 1000) + 500,
+                totalEvents: Math.floor(Math.random() * 200) + 100,
+                totalLogins: Math.floor(Math.random() * 5000) + 1000,
+                activeUsers: Math.floor(Math.random() * 100) + 50
+            };
+
+            const container = document.getElementById('statistics');
+            if (container) {
+                container.innerHTML = `
+                    <div class="stat-card-admin">
+                        <h3>👥 Total Usuarios</h3>
+                        <span class="stat-number-admin">${stats.totalUsers}</span>
+                    </div>
+                    <div class="stat-card-admin">
+                        <h3>🎭 Total Eventos</h3>
+                        <span class="stat-number-admin">${stats.totalEvents}</span>
+                    </div>
+                    <div class="stat-card-admin">
+                        <h3>🔐 Total Logins</h3>
+                        <span class="stat-number-admin">${stats.totalLogins}</span>
+                    </div>
+                    <div class="stat-card-admin">
+                        <h3>✅ Usuarios Activos</h3>
+                        <span class="stat-number-admin">${stats.activeUsers}</span>
+                    </div>
+                `;
+            }
+        } catch (error) {
+            console.error('Error cargando estadísticas:', error);
+        }
+    }
+
+    async loadAuditLogs() {
+        try {
+            // Simular logs de auditoría
+            const mockLogs = [
+                {
+                    id: 1,
+                    user: 'artista@test.com',
+                    action: 'USER_LOGIN',
+                    timestamp: new Date().toISOString(),
+                    details: 'Login exitoso'
+                },
+                {
+                    id: 2,
+                    user: 'admin@test.com',
+                    action: 'GET_PROFILE',
+                    timestamp: new Date(Date.now() - 3600000).toISOString(),
+                    details: 'Obtención de perfil de usuario'
+                },
+                {
+                    id: 3,
+                    user: 'artista@test.com',
+                    action: 'USER_REGISTER',
+                    timestamp: new Date(Date.now() - 7200000).toISOString(),
+                    details: 'Registro de nuevo usuario'
+                }
+            ];
+
+            this.displayAuditLogs(mockLogs);
+        } catch (error) {
+            console.error('Error cargando logs:', error);
+        }
+    }
+
+    displayAuditLogs(logs) {
+        const container = document.getElementById('auditLogs');
+        if (!container) return;
+
+        container.innerHTML = logs.map(log => `
+            <div class="log-entry">
+                <div class="log-header">
+                    <strong>${this.escapeHtml(log.user)}</strong>
+                    <span class="log-action">${this.getActionText(log.action)}</span>
+                    <span class="log-time">${this.formatDate(log.timestamp)}</span>
+                </div>
+                <div class="log-details">${this.escapeHtml(log.details)}</div>
+            </div>
+        `).join('');
+    }
+
+    setupEventListeners() {
+        // Botón de cerrar sesión
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                this.apiService.logout();
+            });
+        }
+
+        // Botón de refrescar
+        const refreshBtn = document.getElementById('refreshLogs');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', () => {
+                this.loadStatistics();
+                this.loadAuditLogs();
+            });
+        }
+
+        // Botón de exportar
+        const exportBtn = document.getElementById('exportLogs');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', () => {
+                this.exportLogs();
+            });
+        }
+    }
+
+    exportLogs() {
+        // Simular exportación de logs
+        const csvContent = "data:text/csv;charset=utf-8,ID,Usuario,Acción,Timestamp,Detalles\n";
+        csvContent += "1,artista@test.com,USER_LOGIN,2025-12-11T07:30:00.000Z,Login exitoso\n";
+        csvContent += "2,admin@test.com,GET_PROFILE,2025-12-11T06:30:00.000Z,Obtención de perfil\n";
+        
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "audit_logs.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleString('es-ES');
+    }
+
+    getActionText(action) {
+        const actionMap = {
+            'USER_LOGIN': 'Login',
+            'USER_REGISTER': 'Registro',
+            'GET_PROFILE': 'Obtener Perfil',
+            'UPDATE_PROFILE': 'Actualizar Perfil'
+        };
+        return actionMap[action] || action;
+    }
+}
+
+// Función global para llenar cuenta de demostración
+function fillDemoAccount(email, password) {
+    document.getElementById('email').value = email;
+    document.getElementById('password').value = password;
+}
+
+// ========================================
 // INICIALIZACIÓN
 // ========================================
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Inicializar apiService global
+    window.apiService = new ApiService();
+    
     // Verificar autenticación en páginas protegidas
     const currentPage = window.location.pathname;
     
@@ -901,6 +1089,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentPage.includes('panel_artista.html')) {
         window.eventManager = new EventManager();
         window.profileManager = new ProfileManager();
+    } else if (currentPage.includes('panel_admin.html')) {
+        window.adminPanel = new AdminPanel();
     } else if (currentPage.includes('index.html') || currentPage === '/' || currentPage.endsWith('/')) {
         window.billboardManager = new BillboardManager();
         window.artistIndexPanel = new ArtistIndexPanel();

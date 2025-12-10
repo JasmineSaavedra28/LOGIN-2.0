@@ -1086,3 +1086,44 @@ body {
 .form-container a:hover {
   color: var(--primary-violet);
 }
+
+/* Cuentas de demostración */
+.demo-accounts {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-color);
+}
+
+.demo-accounts h4 {
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.demo-account {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.demo-account:hover {
+  background-color: var(--primary-violet);
+  color: white;
+  border-color: var(--primary-violet);
+  transform: translateY(-1px);
+}
+
+.demo-account strong {
+  color: var(--primary-violet);
+}
+
+.demo-account:hover strong {
+  color: white;
+}

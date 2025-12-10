@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Musicalendaria</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+            text-align: center;
+        }
+        
+        .demo-header {
+            background: linear-gradient(135deg, var(--primary-violet) 0%, var(--primary-violet-dark) 100%);
+            color: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .demo-header h1 {
+            margin: 0 0 var(--spacing-sm) 0;
+            font-size: 2.5rem;
+            font-family: var(--font-heading);
+        }
+        
+        .demo-accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .demo-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            transition: all 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card);
+            border-color: var(--primary-violet);
+        }
+        
+        .demo-card h3 {
+            color: var(--primary-violet);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.5rem;
+            font-family: var(--font-heading);
+        }
+        
+        .demo-card p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.6;
+        }
+        
+        .demo-features {
+            list-style: none;
+            text-align: left;
+            margin: var(--spacing-md) 0;
+        }
+        
+        .demo-features li {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-xs);
+            padding-left: var(--spacing-sm);
+            position: relative;
+        }
+        
+        .demo-features li::before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+        
+        .demo-btn {
+            background-color: var(--primary-violet);
+            color: white;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: var(--spacing-md);
+            font-family: var(--font-body);
+        }
+        
+        .demo-btn:hover {
+            background-color: var(--primary-violet-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-button);
+        }
+        
+        .demo-btn-secondary {
+            background-color: transparent;
+            color: var(--primary-violet);
+            border: 2px solid var(--primary-violet);
+            margin-left: var(--spacing-sm);
+        }
+        
+        .demo-btn-secondary:hover {
+            background-color: var(--primary-violet);
+            color: white;
+        }
+        
+        .instructions {
+            background-color: var(--bg-elevated);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            text-align: left;
+        }
+        
+        .instructions h4 {
+            color: var(--primary-violet);
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .instructions ol {
+            color: var(--text-secondary);
+            padding-left: var(--spacing-md);
+        }
+        
+        .instructions li {
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        @media (max-width: 768px) {
+            .demo-accounts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-header h1 {
+                font-size: 2rem;
+            }
+            
+            .demo-btn-secondary {
+                margin-left: 0;
+                margin-top: var(--spacing-xs);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🎵 Demo de Musicalendaria</h1>
+            <p>Explora las funcionalidades de la plataforma musical</p>
+        </div>
+
+        <div class="instructions">
+            <h4>📋 Instrucciones de Uso:</h4>
+            <ol>
+                <li>Haz clic en cualquiera de las cuentas de prueba abajo</li>
+                <li>Se abrirá automáticamente la página principal</li>
+                <li>Si eres artista, verás tu panel personalizado en la cartelera</li>
+                <li>Si eres admin, verás el enlace al panel de administración</li>
+                <li>Explora todas las funcionalidades desde cada panel</li>
+            </ol>
+        </div>
+
+        <div class="demo-accounts-grid">
+            <div class="demo-card">
+                <h3>🎨 Cuenta de Artista</h3>
+                <p>Experimenta la experiencia completa del artista: gestión de perfil, creación de eventos, estadísticas y panel personalizado en la cartelera.</p>
+                <ul class="demo-features">
+                    <li>Panel personalizado en index.html</li>
+                    <li>Gestión de eventos</li>
+                    <li>Edición de perfil de artista</li>
+                    <li>Estadísticas de visualización</li>
+                    <li>Enlaces a plataformas musicales</li>
+                </ul>
+                <button class="demo-btn" onclick="loginAsArtist()">Entrar como Artista</button>
+            </div>
+
+            <div class="demo-card">
+                <h3>🔐 Cuenta de Administrador</h3>
+                <p>Accede al panel de administración completo: estadísticas del sistema, logs de auditoría, gestión de usuarios y exportación de datos.</p>
+                <ul class="demo-features">
+                    <li>Panel de administración completo</li>
+                    <li>Estadísticas del sistema</li>
+                    <li>Logs de auditoría</li>
+                    <li>Exportación de datos CSV</li>
+                    <li>Gestión avanzada</li>
+                </ul>
+                <button class="demo-btn" onclick="loginAsAdmin()">Entrar como Admin</button>
+            </div>
+        </div>
+
+        <div style="margin-top: var(--spacing-lg);">
+            <a href="index.html" class="demo-btn demo-btn-secondary">Ver Cartelera sin Login</a>
+            <a href="login.html" class="demo-btn demo-btn-secondary">Página de Login</a>
+        </div>
+
+        <div style="margin-top: var(--spacing-xl); padding-top: var(--spacing-lg); border-top: 1px solid var(--border-color); color: var(--text-secondary); font-size: 0.9rem;">
+            <p><strong>Nota:</strong> Esta es una demostración local. En un entorno real, estos datos se guardarían en una base de datos.</p>
+        </div>
+    </div>
+
+    <script>
+        // Simular login como artista
+        function loginAsArtist() {
+            // Simular token y datos de usuario
+            sessionStorage.setItem('token', 'demo-artist-token');
+            sessionStorage.setItem('role', 'artista');
+            sessionStorage.setItem('user', JSON.stringify({
+                id: 1,
+                name: 'Artista Demo',
+                email: 'artista@test.com',
+                role: 'artista',
+                created_at: '2025-01-01T00:00:00Z'
+            }));
+            
+            // Redirigir a la cartelera
+            window.location.href = 'index.html';
+        }
+
+        // Simular login como admin
+        function loginAsAdmin() {
+            // Simular token y datos de usuario
+            sessionStorage.setItem('token', 'demo-admin-token');
+            sessionStorage.setItem('role', 'admin');
+            sessionStorage.setItem('user', JSON.stringify({
+                id: 2,
+                name: 'Admin Demo',
+                email: 'admin@test.com',
+                role: 'admin',
+                created_at: '2025-01-01T00:00:00Z'
+            }));
+            
+            // Redirigir al panel de admin
+            window.location.href = 'panel_admin.html';
+        }
+    </script>
+</body>
+</html>
