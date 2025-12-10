@@ -682,6 +682,209 @@ function showEventInfo(eventId) {
 }
 
 // ========================================
+// PANEL DEL ARTISTA EN INDEX
+// ========================================
+
+class ArtistIndexPanel {
+    constructor() {
+        this.apiService = apiService;
+        this.init();
+    }
+
+    async init() {
+        // Verificar si el usuario está autenticado y es artista
+        if (!this.apiService.isAuthenticated()) {
+            return;
+        }
+
+        const role = sessionStorage.getItem('role');
+        if (role !== 'artista') {
+            return;
+        }
+
+        // Mostrar panel del artista
+        await this.loadArtistPanel();
+        this.setupEventListeners();
+    }
+
+    async loadArtistPanel() {
+        try {
+            // Obtener información del usuario
+            const user = JSON.parse(sessionStorage.getItem('user'));
+            
+            // Mostrar panel y cargar datos
+            document.getElementById('artistPanelSection').style.display = 'block';
+            document.getElementById('artistName').textContent = user?.name || 'Artista';
+            
+            // Cargar estadísticas
+            await this.loadArtistStats();
+            
+            // Cargar eventos del artista
+            await this.loadArtistEvents();
+            
+        } catch (error) {
+            console.error('Error cargando panel del artista:', error);
+        }
+    }
+
+    async loadArtistStats() {
+        try {
+            // Simular estadísticas del artista
+            const stats = {
+                activeEvents: Math.floor(Math.random() * 5) + 1,
+                upcomingEvents: Math.floor(Math.random() * 3) + 1,
+                totalViews: Math.floor(Math.random() * 500) + 100
+            };
+
+            document.getElementById('activeEventsCount').textContent = stats.activeEvents;
+            document.getElementById('upcomingEventsCount').textContent = stats.upcomingEvents;
+            document.getElementById('totalViews').textContent = stats.totalViews.toLocaleString();
+            
+        } catch (error) {
+            console.error('Error cargando estadísticas:', error);
+        }
+    }
+
+    async loadArtistEvents() {
+        try {
+            // Simular eventos del artista
+            const mockEvents = [
+                {
+                    id: 1,
+                    title: 'Noche de Rock Nacional',
+                    date: '2025-12-15',
+                    time: '21:00',
+                    venue: 'Club de Rock',
+                    city: 'Buenos Aires',
+                    status: 'activo'
+                },
+                {
+                    id: 2,
+                    title: 'Acústico en el Café',
+                    date: '2025-12-20',
+                    time: '20:30',
+                    venue: 'Café Central',
+                    city: 'Córdoba',
+                    status: 'activo'
+                }
+            ];
+
+            this.displayArtistEvents(mockEvents);
+            
+        } catch (error) {
+            console.error('Error cargando eventos del artista:', error);
+            this.showNoArtistEvents();
+        }
+    }
+
+    displayArtistEvents(events) {
+        const container = document.getElementById('artistEventsContainer');
+        const noEventsDiv = document.getElementById('noArtistEvents');
+        
+        if (!events || events.length === 0) {
+            this.showNoArtistEvents();
+            return;
+        }
+
+        noEventsDiv.style.display = 'none';
+        container.style.display = 'grid';
+        
+        container.innerHTML = events.map(event => `
+            <div class="artist-event-card">
+                <div class="artist-event-header">
+                    <h4 class="artist-event-title">${this.escapeHtml(event.title)}</h4>
+                    <span class="artist-event-status status-${event.status}">${this.getStatusText(event.status)}</span>
+                </div>
+                <div class="artist-event-details">
+                    <p><strong>📅 ${this.formatDate(event.date)}</strong></p>
+                    <p><strong>🕐 ${event.time}</strong></p>
+                    <p>📍 ${this.escapeHtml(event.venue)} - ${this.escapeHtml(event.city)}</p>
+                </div>
+                <div class="artist-event-actions">
+                    <button class="btn-edit-event" onclick="editArtistEvent(${event.id})">✏️ Editar</button>
+                    <button class="btn-view-event" onclick="viewArtistEvent(${event.id})">👁️ Ver</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    showNoArtistEvents() {
+        document.getElementById('artistEventsContainer').style.display = 'none';
+        document.getElementById('noArtistEvents').style.display = 'block';
+    }
+
+    setupEventListeners() {
+        // Botón de crear evento rápido
+        const quickAddEvent = document.getElementById('quickAddEvent');
+        if (quickAddEvent) {
+            quickAddEvent.addEventListener('click', () => {
+                window.open('panel_artista.html', '_blank');
+            });
+        }
+
+        // Botón de editar perfil rápido
+        const quickEditProfile = document.getElementById('quickEditProfile');
+        if (quickEditProfile) {
+            quickEditProfile.addEventListener('click', () => {
+                window.open('panel_artista.html', '_blank');
+            });
+        }
+
+        // Botón de ver mis eventos
+        const quickViewMyEvents = document.getElementById('quickViewMyEvents');
+        if (quickViewMyEvents) {
+            quickViewMyEvents.addEventListener('click', () => {
+                window.open('panel_artista.html', '_blank');
+            });
+        }
+
+        // Botón de crear primer evento
+        const createFirstEvent = document.getElementById('createFirstEvent');
+        if (createFirstEvent) {
+            createFirstEvent.addEventListener('click', () => {
+                window.open('panel_artista.html', '_blank');
+            });
+        }
+    }
+
+    escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('es-ES', {
+            weekday: 'short',
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+        });
+    }
+
+    getStatusText(status) {
+        const statusMap = {
+            'activo': 'Activo',
+            'cancelado': 'Cancelado',
+            'postponed': 'Pospuesto'
+        };
+        return statusMap[status] || status;
+    }
+}
+
+// Funciones globales para manejar eventos del artista
+function editArtistEvent(eventId) {
+    window.open(`panel_artista.html?edit=${eventId}`, '_blank');
+}
+
+function viewArtistEvent(eventId) {
+    // Aquí se podría implementar un modal o redirigir a una vista detallada
+    alert(`Ver detalles del evento ${eventId} - Funcionalidad próximamente`);
+}
+
+// ========================================
 // INICIALIZACIÓN
 // ========================================
 
@@ -700,5 +903,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.profileManager = new ProfileManager();
     } else if (currentPage.includes('index.html') || currentPage === '/' || currentPage.endsWith('/')) {
         window.billboardManager = new BillboardManager();
+        window.artistIndexPanel = new ArtistIndexPanel();
     }
 });

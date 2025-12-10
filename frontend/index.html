@@ -96,6 +96,65 @@
         </div>
     </section>
 
+    <!-- Panel del Artista (se muestra solo si está logueado como artista) -->
+    <section class="artist-panel-section" id="artistPanelSection" style="display: none;">
+        <div class="container">
+            <div class="artist-panel-header">
+                <div class="artist-welcome">
+                    <h2>🎨 Bienvenido, <span id="artistName">Artista</span></h2>
+                    <p>Gestiona tu perfil y eventos desde aquí</p>
+                </div>
+                <div class="artist-actions">
+                    <a href="panel_artista.html" class="btn-artist-panel">Ir al Panel Completo</a>
+                </div>
+            </div>
+            
+            <div class="artist-quick-info">
+                <div class="artist-stats-summary">
+                    <div class="stat-card-mini">
+                        <h4>Mis Eventos Activos</h4>
+                        <span class="stat-number-mini" id="activeEventsCount">0</span>
+                    </div>
+                    <div class="stat-card-mini">
+                        <h4>Próximos Eventos</h4>
+                        <span class="stat-number-mini" id="upcomingEventsCount">0</span>
+                    </div>
+                    <div class="stat-card-mini">
+                        <h4>Vistas Totales</h4>
+                        <span class="stat-number-mini" id="totalViews">0</span>
+                    </div>
+                </div>
+                
+                <div class="artist-quick-actions">
+                    <button class="btn-quick-action" id="quickAddEvent">
+                        <span class="action-icon">➕</span>
+                        <span>Crear Evento</span>
+                    </button>
+                    <button class="btn-quick-action" id="quickEditProfile">
+                        <span class="action-icon">✏️</span>
+                        <span>Editar Perfil</span>
+                    </button>
+                    <button class="btn-quick-action" id="quickViewMyEvents">
+                        <span class="action-icon">👁️</span>
+                        <span>Mis Eventos</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Próximos eventos del artista -->
+            <div class="artist-upcoming-events">
+                <h3>📅 Mis Próximos Eventos</h3>
+                <div id="artistEventsContainer" class="artist-events-grid">
+                    <!-- Los eventos del artista se cargarán aquí -->
+                </div>
+                <div class="no-artist-events" id="noArtistEvents" style="display: none;">
+                    <p>Aún no tienes eventos programados.</p>
+                    <button class="btn-primary" id="createFirstEvent">Crear mi primer evento</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Cartelera -->
     <main class="main">
         <div class="container">

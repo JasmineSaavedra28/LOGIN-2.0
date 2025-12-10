@@ -555,6 +555,270 @@ body {
   font-size: 0.875rem;
 }
 
+/* === PANEL DEL ARTISTA === */
+.artist-panel-section {
+  background-color: var(--bg-surface);
+  padding: var(--spacing-lg) 0;
+  margin-bottom: var(--spacing-lg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.artist-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.artist-welcome h2 {
+  color: var(--primary-violet);
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: 1.75rem;
+  font-family: var(--font-heading);
+}
+
+.artist-welcome p {
+  color: var(--text-secondary);
+  margin: 0;
+  font-size: 1rem;
+}
+
+.btn-artist-panel {
+  background-color: var(--primary-violet);
+  color: white;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--font-body);
+}
+
+.btn-artist-panel:hover {
+  background-color: var(--primary-violet-dark);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-button);
+}
+
+.artist-quick-info {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+}
+
+.artist-stats-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.stat-card-mini {
+  background-color: var(--bg-primary);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.stat-card-mini:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+}
+
+.stat-card-mini h4 {
+  color: var(--text-secondary);
+  margin: 0 0 var(--spacing-xs) 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.stat-number-mini {
+  color: var(--primary-violet);
+  font-size: 1.5rem;
+  font-weight: 700;
+  display: block;
+}
+
+.artist-quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.btn-quick-action {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  padding: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+}
+
+.btn-quick-action:hover {
+  background-color: var(--primary-violet);
+  color: white;
+  border-color: var(--primary-violet);
+  transform: translateY(-1px);
+}
+
+.action-icon {
+  font-size: 1rem;
+}
+
+.artist-upcoming-events {
+  margin-top: var(--spacing-lg);
+}
+
+.artist-upcoming-events h3 {
+  color: var(--primary-violet);
+  margin-bottom: var(--spacing-md);
+  font-size: 1.25rem;
+  font-family: var(--font-heading);
+}
+
+.artist-events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.artist-event-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-sm);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.artist-event-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--primary-violet);
+}
+
+.artist-event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-sm);
+}
+
+.artist-event-title {
+  color: var(--text-primary);
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: var(--font-heading);
+}
+
+.artist-event-status {
+  padding: 0.25rem var(--spacing-xs);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-active {
+  background-color: rgba(34, 197, 94, 0.1);
+  color: var(--success);
+}
+
+.status-cancelled {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+}
+
+.status-postponed {
+  background-color: rgba(251, 191, 36, 0.1);
+  color: var(--warning);
+}
+
+.artist-event-details {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.artist-event-details p {
+  margin: 0.25rem 0;
+}
+
+.artist-event-actions {
+  margin-top: var(--spacing-sm);
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.btn-edit-event {
+  background-color: var(--primary-violet);
+  color: white;
+  border: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-edit-event:hover {
+  background-color: var(--primary-violet-dark);
+}
+
+.btn-view-event {
+  background-color: transparent;
+  color: var(--primary-violet);
+  border: 1px solid var(--primary-violet);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-view-event:hover {
+  background-color: var(--primary-violet);
+  color: white;
+}
+
+.no-artist-events {
+  text-align: center;
+  padding: var(--spacing-lg);
+  color: var(--text-secondary);
+}
+
+.no-artist-events p {
+  margin-bottom: var(--spacing-sm);
+}
+
+.no-artist-events button {
+  background-color: var(--primary-violet);
+  color: white;
+  border: none;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-body);
+}
+
+.no-artist-events button:hover {
+  background-color: var(--primary-violet-dark);
+}
+
 /* === RESPONSIVE === */
 @media (max-width: 1024px) {
   .events-grid {
@@ -628,6 +892,32 @@ body {
   .social-links {
     justify-content: center;
   }
+  
+  /* Panel del artista responsive */
+  .artist-panel-header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    text-align: center;
+  }
+  
+  .artist-quick-info {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  .artist-stats-summary {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+  }
+  
+  .artist-events-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xs);
+  }
+  
+  .artist-event-actions {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 480px) {
@@ -645,6 +935,29 @@ body {
   
   .event-title {
     font-size: 1.25rem;
+  }
+  
+  /* Panel del artista en pantallas muy pequeñas */
+  .artist-panel-section {
+    padding: var(--spacing-md) 0;
+  }
+  
+  .artist-welcome h2 {
+    font-size: 1.5rem;
+  }
+  
+  .btn-artist-panel {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.9rem;
+  }
+  
+  .btn-quick-action {
+    font-size: 0.9rem;
+    padding: var(--spacing-xs);
+  }
+  
+  .artist-event-title {
+    font-size: 1rem;
   }
 }
 
