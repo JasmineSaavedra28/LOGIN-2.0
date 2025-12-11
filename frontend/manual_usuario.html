@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - Musicalendaria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #f8fafc;
+            background: linear-gradient(135deg, #0f0f23 0%, #1e1e3f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1e1e3f;
+            border-radius: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #2d2d4a;
+            border-radius: 12px;
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #a855f7;
+            margin-bottom: 20px;
+        }
+        
+        .section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #c084fc;
+            margin-bottom: 15px;
+            margin-top: 25px;
+        }
+        
+        .section p {
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+        
+        .section ul, .section ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .section li {
+            margin-bottom: 8px;
+            color: #cbd5e1;
+        }
+        
+        .credentials-box {
+            background: #0f0f23;
+            border: 2px solid #8b5cf6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .credentials-box h4 {
+            color: #a855f7;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: #1e1e3f;
+            border-radius: 4px;
+        }
+        
+        .credential-item strong {
+            color: #e2e8f0;
+        }
+        
+        .credential-item span {
+            color: #c084fc;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 40px;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #8b5cf6;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .warning-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .warning-box h4 {
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
+        
+        .tip-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .tip-box h4 {
+            color: #10b981;
+            margin-bottom: 10px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 24px;
+            background: #8b5cf6;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+        }
+        
+        .back-link svg {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎵 Manual de Usuario</h1>
+            <p>Guía Completa para Musicalendaria v2.0</p>
+        </div>
+        
+        <div class="content">
+            <a href="index.html" class="back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Volver a la Cartelera
+            </a>
+            
+            <div class="section">
+                <h2>🚀 Introducción</h2>
+                <p>Musicalendaria es una plataforma web moderna diseñada para la gestión y visualización de eventos musicales. Este manual te guiará paso a paso para aprovechar al máximo todas las funcionalidades de la plataforma.</p>
+                
+                <div class="tip-box">
+                    <h4>💡 Tip</h4>
+                    <p>Para una experiencia de prueba rápida, puedes usar la página de demostración (demo.html) que no requiere configuración.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🔐 Acceso al Sistema</h2>
+                
+                <h3>Credenciales de Prueba</h3>
+                <p>Si estás usando la versión de demostración, puedes usar estas credenciales pre-configuradas:</p>
+                
+                <div class="credentials-box">
+                    <h4>👨‍🎤 Cuenta de Artista</h4>
+                    <div class="credential-item">
+                        <strong>Email:</strong>
+                        <span>artista@test.com</span>
+                    </div>
+                    <div class="credential-item">
+                        <strong>Contraseña:</strong>
+                        <span>password123</span>
+                    </div>
+                </div>
+                
+                <div class="credentials-box">
+                    <h4>👨‍💼 Cuenta de Administrador</h4>
+                    <div class="credential-item">
+                        <strong>Email:</strong>
+                        <span>admin@test.com</span>
+                    </div>
+                    <div class="credential-item">
+                        <strong>Contraseña:</strong>
+                        <span>password123</span>
+                    </div>
+                </div>
+                
+                <h3>Proceso de Login</h3>
+                <ol class="step-list">
+                    <li>Accede a la página de login desde la cartelera principal</li>
+                    <li>Ingresa tu email y contraseña en los campos correspondientes</li>
+                    <li>Haz clic en el botón "Iniciar Sesión"</li>
+                    <li>Serás redirigido automáticamente según tu rol</li>
+                </ol>
+                
+                <div class="warning-box">
+                    <h4>⚠️ Importante</h4>
+                    <p>Si olvidas tus credenciales, utiliza la opción de registro para crear una nueva cuenta de artista.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>👨‍🎨 Panel del Artista</h2>
+                
+                <h3>Acceso al Panel</h3>
+                <p>Una vez que inicies sesión como artista, verás un panel personalizado en la cartelera principal que incluye:</p>
+                
+                <ul>
+                    <li><strong>Información personal:</strong> Tu nombre y estadísticas básicas</li>
+                    <li><strong>Estadísticas rápidas:</strong> Número de eventos creados, próximos eventos</li>
+                    <li><strong>Acciones rápidas:</strong> Botones para crear eventos y gestionar tu perfil</li>
+                </ul>
+                
+                <h3>Crear un Nuevo Evento</h3>
+                <ol class="step-list">
+                    <li>Desde el panel personalizado, haz clic en "Crear Evento"</li>
+                    <li>Completa todos los campos requeridos:
+                        <ul>
+                            <li><strong>Título del evento:</strong> Nombre descriptivo del espectáculo</li>
+                            <li><strong>Descripción:</strong> Detalles adicionales sobre el evento</li>
+                            <li><strong>Fecha y hora:</strong> Debe ser una fecha futura</li>
+                            <li><strong>Venue:</strong> Nombre del lugar o estadio</li>
+                            <li><strong>Ciudad:</strong> Ubicación del evento</li>
+                            <li><strong>Tipo de entrada:</strong> Gratuito, Gorra, Arancelado, Beneficio</li>
+                            <li><strong>Precio:</strong> (Si es aplicable)</li>
+                        </ul>
+                    </li>
+                    <li>Haz clic en "Guardar Evento"</li>
+                    <li>El evento aparecerá inmediatamente en la cartelera</li>
+                </ol>
+                
+                <h3>Gestionar Eventos Existentes</h3>
+                <p>Para editar un evento que hayas creado:</p>
+                <ol class="step-list">
+                    <li>Ve a "Mis Eventos" desde el panel de artista</li>
+                    <li>Haz clic en el botón "Editar" del evento que deseas modificar</li>
+                    <li>Realiza los cambios necesarios</li>
+                    <li>Guarda los cambios</li>
+                </ol>
+                
+                <p>Para eliminar un evento:</p>
+                <ol class="step-list">
+                    <li>En la lista "Mis Eventos", haz clic en "Eliminar"</li>
+                    <li>Confirma la eliminación en el diálogo que aparece</li>
+                </ol>
+            </div>
+            
+            <div class="section">
+                <h2>👨‍💼 Panel Administrativo</h2>
+                
+                <h3>Acceso al Panel</h3>
+                <p>Los administradores tienen acceso a un panel completo con herramientas de control del sistema.</p>
+                
+                <h3>Estadísticas del Sistema</h3>
+                <p>El panel administrativo muestra:</p>
+                <ul>
+                    <li><strong>Total de usuarios:</strong> Cantidad de artistas registrados</li>
+                    <li><strong>Total de eventos:</strong> Eventos activos en la plataforma</li>
+                    <li><strong>Actividad reciente:</strong> Últimas acciones del sistema</li>
+                    <li><strong>Usuarios activos:</strong> Usuarios con actividad reciente</li>
+                </ul>
+                
+                <h3>Logs de Auditoría</h3>
+                <p>Para revisar la actividad del sistema:</p>
+                <ol class="step-list">
+                    <li>En el panel admin, ve a la sección "Logs de Auditoría"</li>
+                    <li>Utiliza los filtros para buscar acciones específicas</li>
+                    <li>Revisa el registro detallado de actividades</li>
+                </ol>
+                
+                <h3>Exportar Datos</h3>
+                <p>Para exportar información del sistema:</p>
+                <ol class="step-list">
+                    <li>Ve a la sección "Exportar Datos"</li>
+                    <li>Selecciona el tipo de datos (Usuarios o Eventos)</li>
+                    <li>Haz clic en "Descargar CSV"</li>
+                    <li>El archivo se descargará automáticamente</li>
+                </ol>
+            </div>
+            
+            <div class="section">
+                <h2>🎫 Cartelera de Eventos</h2>
+                
+                <h3>Visualizar Eventos</h3>
+                <p>La cartelera principal muestra todos los eventos activos organizados cronológicamente. Cada evento incluye:</p>
+                <ul>
+                    <li>Título del evento</li>
+                    <li>Fecha y hora</li>
+                    <li>Venue y ciudad</li>
+                    <li>Tipo de entrada</li>
+                    <li>Precio (si aplica)</li>
+                </ul>
+                
+                <h3>Filtros de Búsqueda</h3>
+                <p>Utiliza los filtros para encontrar eventos específicos:</p>
+                
+                <h4>Filtrar por Género</h4>
+                <ul>
+                    <li>Selecciona el género musical de tu interés</li>
+                    <li>Solo se mostrarán eventos de ese género</li>
+                </ul>
+                
+                <h4>Filtrar por Modalidad</h4>
+                <ul>
+                    <li>Elige el tipo de entrada (Gratuito, Gorra, Arancelado, Beneficio)</li>
+                    <li>Los eventos se filtrarán según el criterio seleccionado</li>
+                </ul>
+                
+                <h4>Filtrar por Fecha</h4>
+                <ul>
+                    <li>Selecciona un rango de fechas específico</li>
+                    <li>Solo se mostrarán eventos dentro del período seleccionado</li>
+                </ul>
+                
+                <h4>Búsqueda Textual</h4>
+                <ul>
+                    <li>Escribe palabras clave en el campo de búsqueda</li>
+                    <li>Se buscarán coincidencias en títulos de eventos y nombres de artistas</li>
+                </ul>
+                
+                <div class="tip-box">
+                    <h4>💡 Consejo</h4>
+                    <p>Puedes combinar múltiples filtros para una búsqueda más específica. Los filtros se aplican en conjunto.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📱 Uso en Dispositivos Móviles</h2>
+                
+                <h3>Diseño Responsive</h3>
+                <p>Musicalendaria está optimizada para dispositivos móviles. En pantallas pequeñas:</p>
+                
+                <ul>
+                    <li><strong>Navegación:</strong> Usa el menú hamburguesa (☰) para acceder a las opciones</li>
+                    <li><strong>Cartelera:</strong> Los eventos se muestran en una sola columna</li>
+                    <li><strong>Formularios:</strong> Se adaptan al ancho de pantalla</li>
+                    <li><strong>Botones:</strong> Tienen un tamaño adecuado para toque</li>
+                </ul>
+                
+                <h3>Funcionalidades Móviles</h3>
+                <p>Todas las funcionalidades están disponibles en móviles:</p>
+                <ul>
+                    <li>Crear y editar eventos</li>
+                    <li>Acceder a paneles personalizados</li>
+                    <li>Filtrar eventos</li>
+                    <li>Navegar por toda la plataforma</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>❓ Preguntas Frecuentes</h2>
+                
+                <h3>¿Puedo crear eventos con fechas pasadas?</h3>
+                <p>No, el sistema valida que las fechas de eventos sean futuras para mantener la cartelera actualizada.</p>
+                
+                <h3>¿Puedo editar eventos de otros artistas?</h3>
+                <p>No, solo puedes editar y eliminar tus propios eventos. Esta restricción protege la integridad de los datos.</p>
+                
+                <h3>¿Cómo cambio mi contraseña?</h3>
+                <p>Actualmente, para cambiar la contraseña necesitas registrarte nuevamente o contactar al administrador del sistema.</p>
+                
+                <h3>¿Qué tipos de entrada están disponibles?</h3>
+                <p>El sistema soporta cuatro tipos de entrada:
+                <ul>
+                    <li><strong>Gratuito:</strong> Sin costo</li>
+                    <li><strong>Gorra:</strong> Contribución sugerida</li>
+                    <li><strong>Arancelado:</strong> Precio fijo</li>
+                    <li><strong>Beneficio:</strong> Para causas benéficas</li>
+                </ul>
+                </p>
+                
+                <h3>¿Cómo contacto soporte técnico?</h3>
+                <p>Para soporte técnico, puedes contactar al administrador del sistema o revisar la documentación técnica.</p>
+            </div>
+            
+            <div class="section">
+                <h2>🔧 Solución de Problemas</h2>
+                
+                <h3>No puedo iniciar sesión</h3>
+                <p>Verifica que:</p>
+                <ul>
+                    <li>Tu email y contraseña sean correctos</li>
+                    <li>Tu cuenta esté activa</li>
+                    <li>No hayas excedido el límite de intentos de login</li>
+                </ul>
+                
+                <h3>Mi evento no aparece en la cartelera</h3>
+                <p>Comprueba que:</p>
+                <ul>
+                    <li>El evento tenga fecha futura</li>
+                    <li>Todos los campos requeridos estén completos</li>
+                    <li>El estado del evento sea "activo"</li>
+                </ul>
+                
+                <h3>Los filtros no funcionan</h3>
+                <p>Intenta:</p>
+                <ul>
+                    <li>Limpiar todos los filtros y aplicar uno por uno</li>
+                    <li>Recargar la página</li>
+                    <li>Verificar que haya eventos que coincidan con los criterios</li>
+                </ul>
+                
+                <h3>La página carga lentamente</h3>
+                <p>Para mejorar el rendimiento:</p>
+                <ul>
+                    <li>Usa un navegador actualizado</li>
+                    <li>Verifica tu conexión a internet</li>
+                    <li>Limpia la caché del navegador</li>
+                    <li>Cierra otras pestañas que consuman recursos</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 Consejos para Mejores Resultados</h2>
+                
+                <h3>Para Artistas</h3>
+                <ul>
+                    <li><strong>Títulos descriptivos:</strong> Usa títulos claros y atractivos para tus eventos</li>
+                    <li><strong>Fechas realistas:</strong> Asegúrate de que las fechas y horarios sean correctos</li>
+                    <li><strong>Información completa:</strong> Incluye toda la información relevante del evento</li>
+                    <li><strong>Actualizaciones:</strong> Mantén tus eventos actualizados</li>
+                </ul>
+                
+                <h3>Para Administradores</h3>
+                <ul>
+                    <li><strong>Revisa logs regularmente:</strong> Monitorea la actividad del sistema</li>
+                    <li><strong>Exporta datos periódicamente:</strong> Para respaldos y análisis</li>
+                    <li><strong>Responde a problemas:</strong> Atiende rápidamente los reportes de usuarios</li>
+                </ul>
+                
+                <h3>Para Todos los Usuarios</h3>
+                <ul>
+                    <li><strong>Navegador actualizado:</strong> Usa versiones recientes de Chrome, Firefox, Safari o Edge</li>
+                    <li><strong>JavaScript habilitado:</strong> Asegúrate de que JavaScript esté activado</li>
+                    <li><strong>Conexión estable:</strong> Una buena conexión mejora la experiencia</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>📞 Información de Contacto</h2>
+                <p>Para soporte técnico, preguntas o sugerencias:</p>
+                
+                <div class="credentials-box">
+                    <h4>🏢 Musicalendaria Support</h4>
+                    <div class="credential-item">
+                        <strong>Documentación:</strong>
+                        <span>Consulta README.md</span>
+                    </div>
+                    <div class="credential-item">
+                        <strong>Técnico:</strong>
+                        <span>Sistema interno</span>
+                    </div>
+                    <div class="credential-item">
+                        <strong>Versión:</strong>
+                        <span>2.0.0</span>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <h4>🚀 Versión Actual</h4>
+                    <p>Estás usando Musicalendaria v2.0.0. Para actualizaciones y nuevas funcionalidades, mantente atento a las notificaciones del sistema.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
